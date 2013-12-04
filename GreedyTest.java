@@ -14,14 +14,14 @@ import java.util.TreeSet;
  *
  * @author Urmas
  */
-public class Greedy {
+public class GreedyTest {
     
     private static final String fileName = "task_001.txt";
     private ArrayList<TreeSet> sets;
     private ArrayList<Double> weights;
     private TreeSet universe;
     
-    public Greedy() throws IOException
+    public GreedyTest() throws IOException
     {
         this.sets = new ArrayList<TreeSet>();
         this.weights = new ArrayList<Double>();
@@ -77,7 +77,7 @@ public class Greedy {
     public static void main(String[] args) throws IOException
     {
         
-        Greedy greedy = new Greedy();
+        GreedyTest greedy = new GreedyTest();
         
         /*for(int i=0; i<greedy.weights.size(); i++)
         {
@@ -86,10 +86,7 @@ public class Greedy {
         System.out.println();*/
                 
         
-        greedy.cover();
-        
-        //greedy.weightedCover();
-        
+        greedy.weightedCover();    
     }
     
     /**
@@ -139,64 +136,6 @@ public class Greedy {
         }
         
         System.out.println(Math.ceil(total_weight*100)/100);
-    }
-    
-    public void cover()
-    {
-        int max_size = 0;
-        int max_index = 0;
-        
-        //pick the largest set to maximize the initial cover
-        for(int i=0; i<this.sets.size(); i++)
-        {
-            TreeSet set = this.sets.get(i);
-            
-            if(set.size() > max_size)
-            {
-                max_size = set.size();
-                max_index = i;
-            }
-        }
-        
-        System.out.print((max_index+1)+" ");
-        
-        
-        this.remElements(max_index);
-        
-        while(this.universe.size() > 0)
-        {
-            max_index = 0;
-            double ratio = Double.MAX_VALUE;
-            
-            for(int i=0; i<this.sets.size(); i++)
-            {
-                
-                TreeSet set = (TreeSet)this.sets.get(i).clone();
-
-                int elems = 0;
-                int size  = set.size();
-                
-                while(set.size() > 0)
-                {
-                    if(this.universe.contains(set.pollFirst()))
-                    {
-                        elems++;
-                    }
-                }
-
-                //minimize the size of the cover, so take set with less in size
-                if(elems > 0 && size / elems < ratio)
-                {
-                    max_index = i;
-                    ratio = size / elems;
-                }
-                    
-            }
-
-            System.out.print((max_index+1)+" ");
-
-            this.remElements(max_index);
-        }
     }
     
     public void remElements(int max_index)
