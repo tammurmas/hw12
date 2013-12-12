@@ -77,7 +77,7 @@ public class Greedy {
     public static void main(String[] args) throws IOException
     {
         
-        for(int i=1; i<=30; i++)
+        for(int i=1; i<=1; i++)
         {
             if(i < 10)
                 fileName = "task_00"+i+".txt";
@@ -110,7 +110,8 @@ public class Greedy {
         
         while(this.universe.size() > 0)
         {
-            double min_weight = Double.MAX_VALUE;
+            double min_ratio = Double.MAX_VALUE;
+            double min_weight = 0;
             int max_index     = 0;
             
             for(int i=0; i<this.sets.size(); i++)
@@ -130,10 +131,11 @@ public class Greedy {
                 }
 
                 //minimize the cover
-                if(weight / elems < min_weight)
+                if(weight / elems < min_ratio)
                 {
                     max_index = i;
-                    min_weight = weight / elems;
+                    min_ratio = weight / elems;
+                    min_weight = weight;
                 }
                     
             }
@@ -175,7 +177,7 @@ public class Greedy {
         while(this.universe.size() > 0)
         {
             max_index = 0;
-            max_size  = 0;
+            max_size  = Integer.MAX_VALUE;
             
             for(int i=0; i<this.sets.size(); i++)
             {
@@ -183,6 +185,7 @@ public class Greedy {
                 TreeSet set = (TreeSet)this.sets.get(i).clone();
 
                 int elems = 0;
+                int max_occur = 0;
                 
                 while(set.size() > 0)
                 {
@@ -193,10 +196,11 @@ public class Greedy {
                 }
 
                 //minimize the size of the cover, so take set with less in size
-                if(elems > max_size)
+                if(elems > max_occur && set.size() < max_size)
                 {
                     max_index = i;
-                    max_size = elems;
+                    max_size = set.size();
+                    max_occur = elems;
                 }
                     
             }
